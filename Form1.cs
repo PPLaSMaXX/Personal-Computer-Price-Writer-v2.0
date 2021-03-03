@@ -33,11 +33,21 @@ namespace PCPW2
 
         }
 
-        private void btnPull_Click(object sender, EventArgs e)
+        private async void btnPull_Click(object sender, EventArgs e)
         {
+            Parser parser = new Parser();
+            List<ParsedProduct> products = new List<ParsedProduct>();
+
             if (cfg.link != tbLink.Text) cfg.link = tbLink.Text;
             if (cfg.saveFilePath != tbLink.Text) cfg.saveFilePath = tbDataPath.Text;
             cfgIO.SaveToFIle(cfg, cfgPath);
+
+            products = await parser.ParseLink(cfg.link);
+            if(products == null)
+            {
+                MessageBox.Show("Error: Data doesn`t Parsed!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
         }
 
         private void btnChooseDataPath_Click(object sender, EventArgs e)

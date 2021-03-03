@@ -8,7 +8,7 @@ namespace PCPW2
 {
     class ParsedProduct
     {
-        ParsedProduct(string name, int price)
+        public ParsedProduct(string name, int price)
         {
             this.name = name;
             this.price = price;
