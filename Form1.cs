@@ -20,7 +20,7 @@ namespace PCPW2
             cfg = cfgIO.ReadFromFile(cfg, cfgPath);
             if (cfg == null)
             {
-                MessageBox.Show("Error: config file can not be read", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowErrorMessage("config file can not be read");
             }
 
             tbDataPath.Text = cfg.saveFilePath;
@@ -37,19 +37,19 @@ namespace PCPW2
             if (cfg.saveFilePath != tbLink.Text) cfg.saveFilePath = tbDataPath.Text;
             if (!cfgIO.SaveToFIle(cfg, cfgPath))
             {
-                MessageBox.Show("Error: Can`t save config", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowErrorMessage("Can`t save config");
             }
 
             products = await parser.ParseLink(cfg.link);
             if (products == null)
             {
-                MessageBox.Show("Error: Data doesn`t parsed!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowErrorMessage("Data doesn`t parsed!");
                 return;
             }
 
             if (!dataWriter.WriteToFIle(products, cfg.saveFilePath) && cfg.saveFilePath == "")
             {
-                MessageBox.Show("Error: Folder doesn't choosen", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowErrorMessage("Folder doesn't choosen");
             }
 
         }
@@ -62,6 +62,11 @@ namespace PCPW2
                 cfg.saveFilePath = tbDataPath.Text;
                 cfgIO.SaveToFIle(cfg, cfgPath);
             }
+        }
+
+        private void ShowErrorMessage(string error)
+        {
+            MessageBox.Show($"Error: {error}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
