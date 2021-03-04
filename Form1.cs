@@ -31,7 +31,6 @@ namespace PCPW2
 
             tbDataPath.Text = cfg.saveFilePath;
             tbLink.Text = cfg.link;
-
         }
 
         private async void btnPull_Click(object sender, EventArgs e)
@@ -53,7 +52,12 @@ namespace PCPW2
 
         private void btnChooseDataPath_Click(object sender, EventArgs e)
         {
-
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                tbDataPath.Text = folderBrowserDialog1.SelectedPath + "\\PriceData.csv";
+                cfg.saveFilePath = tbDataPath.Text;
+                cfgIO.SaveToFIle(cfg, cfgPath);
+            }
         }
     }
 }
