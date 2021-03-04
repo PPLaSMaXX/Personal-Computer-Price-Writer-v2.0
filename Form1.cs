@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PCPW2
@@ -35,6 +29,7 @@ namespace PCPW2
 
         private async void btnPull_Click(object sender, EventArgs e)
         {
+            DataWriter dataWriter = new DataWriter();
             Parser parser = new Parser();
             List<ParsedProduct> products = new List<ParsedProduct>();
 
@@ -43,10 +38,15 @@ namespace PCPW2
             cfgIO.SaveToFIle(cfg, cfgPath);
 
             products = await parser.ParseLink(cfg.link);
-            if(products == null)
+            if (products == null)
             {
-                MessageBox.Show("Error: Data doesn`t Parsed!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error: Data doesn`t parsed!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
+            }
+
+            if (!dataWriter.WriteToFIle(products, cfg.saveFilePath) && cfg.saveFilePath == "")
+            {
+                MessageBox.Show("Error: Folder doesn't choosen", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

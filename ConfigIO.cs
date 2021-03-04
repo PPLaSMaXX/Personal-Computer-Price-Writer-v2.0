@@ -1,10 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCPW2
 {
@@ -26,7 +21,7 @@ namespace PCPW2
             {
                 File.WriteAllText(cfgPath, ToJson(cfg));
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }
@@ -40,7 +35,7 @@ namespace PCPW2
                 string str = File.ReadAllText(cfgPath);
                 cfg = FromJson(str);
             }
-            catch (Exception e)
+            catch
             {
                 return null;
             }
