@@ -31,11 +31,14 @@ namespace PCPW2
         {
             DataWriter dataWriter = new DataWriter();
             Parser parser = new Parser();
-            List<ParsedProduct> products = new List<ParsedProduct>();
+            List<ParsedProduct> products;
 
             if (cfg.link != tbLink.Text) cfg.link = tbLink.Text;
             if (cfg.saveFilePath != tbLink.Text) cfg.saveFilePath = tbDataPath.Text;
-            cfgIO.SaveToFIle(cfg, cfgPath);
+            if (!cfgIO.SaveToFIle(cfg, cfgPath))
+            {
+                MessageBox.Show("Error: Can`t save config", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             products = await parser.ParseLink(cfg.link);
             if (products == null)
@@ -48,6 +51,7 @@ namespace PCPW2
             {
                 MessageBox.Show("Error: Folder doesn't choosen", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
 
         private void btnChooseDataPath_Click(object sender, EventArgs e)

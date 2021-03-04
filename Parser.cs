@@ -27,8 +27,8 @@ namespace PCPW2
 
             if (document.StatusCode != System.Net.HttpStatusCode.OK) return null;
 
-            var parsedPrices = document.QuerySelectorAll("td.model-hot-prices-td [id^=price], [class$=ib] span:first-child");
-            var parsedNames = document.QuerySelectorAll("td.model-short-info table span.u");
+            IHtmlCollection<IElement> parsedPrices = document.QuerySelectorAll("td.model-hot-prices-td [id^=price], [class$=ib] span:first-child");
+            IHtmlCollection<IElement> parsedNames = document.QuerySelectorAll("td.model-short-info table span.u");
 
             for (int i = 0; i < parsedPrices.Length; i++)
             {

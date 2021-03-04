@@ -11,7 +11,11 @@ namespace PCPW2
         DateTime date = DateTime.Now;
         public bool WriteToFIle(List<ParsedProduct> products, string saveFilePath)
         {
-            if (isWritten(saveFilePath)) return false;
+            if (isWritten(saveFilePath))
+            {
+                MessageBox.Show("Already Done", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
 
             int sum = 0;
             string completedLine, prepearedString = "";
@@ -31,7 +35,7 @@ namespace PCPW2
             }
             catch
             {
-                MessageBox.Show("Error: Can't write data to file, close him if opened", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error: Can't write data to file, close it if opened", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
@@ -46,7 +50,7 @@ namespace PCPW2
             }
             catch
             {
-                MessageBox.Show("Error: Can't get access to file, close him if opened", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error: Can't get access to file, close it if opened", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;
             }
         }
