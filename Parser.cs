@@ -17,7 +17,7 @@ namespace PCPW2
 
             if (!validateLink(link))
             {
-                MessageBox.Show("Error: Link is not valid or empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error: Link is not valid", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
 
