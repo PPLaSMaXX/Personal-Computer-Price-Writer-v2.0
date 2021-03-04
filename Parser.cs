@@ -27,6 +27,9 @@ namespace PCPW2
             IConfiguration config = Configuration.Default.WithDefaultLoader();
 
             IDocument document = await BrowsingContext.New(config).OpenAsync(link);
+
+            if (document.StatusCode != System.Net.HttpStatusCode.OK) return null;
+
             var parsedPrices = document.QuerySelectorAll("td.model-hot-prices-td [id^=price], [class$=ib] span:first-child");
             var parsedNames = document.QuerySelectorAll("td.model-short-info table span.u");
 

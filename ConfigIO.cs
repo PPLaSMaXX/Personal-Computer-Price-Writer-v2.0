@@ -33,7 +33,7 @@ namespace PCPW2
             return true;
         }
 
-        public bool ReadFromFile(Config cfg, string cfgPath)
+        public Config ReadFromFile(Config cfg, string cfgPath)
         {
             try
             {
@@ -42,9 +42,9 @@ namespace PCPW2
             }
             catch (Exception e)
             {
-                return false;
+                return null;
             }
-            return true;
+            return cfg;
         }
     }
 }

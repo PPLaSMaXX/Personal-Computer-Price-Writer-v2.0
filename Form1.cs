@@ -13,7 +13,7 @@ namespace PCPW2
     public partial class Form1 : Form
     {
         private const string cfgPath = "config.json";
-        Config cfg = new Config();
+        Config cfg;
         ConfigIO cfgIO = new ConfigIO();
 
         public Form1()
@@ -23,7 +23,8 @@ namespace PCPW2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (!cfgIO.ReadFromFile(cfg, cfgPath))
+            cfg = cfgIO.ReadFromFile(cfg, cfgPath);
+            if (cfg == null)
             {
                 MessageBox.Show("Error: config file can not be read", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
