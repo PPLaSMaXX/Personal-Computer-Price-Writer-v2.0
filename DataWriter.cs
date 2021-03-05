@@ -8,9 +8,10 @@ namespace PCPW2
 {
     class DataWriter
     {
-        DateTime date = DateTime.Now;
-        public bool WriteToFIle(List<ParsedProduct> products, string saveFilePath)
+        static DateTime date = DateTime.Now;
+        static public bool WriteToFIle(List<ParsedProduct> products, string saveFilePath)
         {
+            //checking is file was Written
             if (isWritten(saveFilePath))
             {
                 MessageBox.Show("Already Done", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -19,6 +20,8 @@ namespace PCPW2
 
             int sum = 0;
             string completedLine, prepearedString = "";
+
+            //adding all to one string which wiil be line in csv
             for (int i = 0; i < products.Count; i++)
             {
                 prepearedString += products[i].price.ToString() + ";";
@@ -26,23 +29,26 @@ namespace PCPW2
             }
             prepearedString += sum.ToString() + ";";
 
+            //making complete line which 
             completedLine = csvLineMaker(prepearedString);
 
             try
             {
+                //Writing
                 File.AppendAllText(saveFilePath, completedLine);
                 return true;
             }
             catch
             {
+                //data write error
                 MessageBox.Show("Error: Can't write data to file, close it if opened", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
 
-        private bool isWritten(string saveFilePath)
+        static private bool isWritten(string saveFilePath)
         {
-            if (!File.Exists(saveFilePath)) return true;
+            if (!File.Exists(saveFilePath)) return false;
             try
             {
                 string input = File.ReadAllText(saveFilePath);
@@ -51,11 +57,11 @@ namespace PCPW2
             catch
             {
                 MessageBox.Show("Error: Can't get access to file, close it if opened", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return true;
+                return false;
             }
         }
 
-        private string csvLineMaker(string input)
+        static private string csvLineMaker(string input)
         {
             StringBuilder csv = new StringBuilder();
             csv.Append(string.Format(date.Day + "." + date.Month + "." + date.Year + ";" + input));

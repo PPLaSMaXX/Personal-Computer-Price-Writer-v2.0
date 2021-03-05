@@ -5,17 +5,17 @@ namespace PCPW2
 {
     class ConfigIO
     {
-        public string ToJson(Config cfg)
+        static public string ToJson(Config cfg)
         {
             return JsonConvert.SerializeObject(cfg);
         }
 
-        public Config FromJson(string input)
+        static public Config FromJson(string input)
         {
             return JsonConvert.DeserializeObject<Config>(input);
         }
 
-        public bool SaveToFIle(Config cfg, string cfgPath)
+        static public bool SaveToFIle(Config cfg, string cfgPath)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace PCPW2
             return true;
         }
 
-        public Config ReadFromFile(Config cfg, string cfgPath)
+        static public Config ReadFromFile(Config cfg, string cfgPath)
         {
             try
             {
