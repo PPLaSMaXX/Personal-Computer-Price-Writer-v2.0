@@ -16,7 +16,7 @@ namespace PCPW2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            cfg = ConfigIO.ReadFromFile(cfg, cfgPath);
+            cfg = ConfigIO.ReadFromFile(cfgPath);
 
             if (cfg == null)
             {
@@ -29,7 +29,7 @@ namespace PCPW2
             tbLink.Text = cfg.link;
         }
 
-        private async void btnPull_Click(object sender, EventArgs e)
+        private async void BtnPull_Click(object sender, EventArgs e)
         {
             // Get config values from UI
             if (cfg.link != tbLink.Text) cfg.link = tbLink.Text;
@@ -60,7 +60,7 @@ namespace PCPW2
 
         }
 
-        private void btnChooseDataPath_Click(object sender, EventArgs e)
+        private void BtnChooseDataPath_Click(object sender, EventArgs e)
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {

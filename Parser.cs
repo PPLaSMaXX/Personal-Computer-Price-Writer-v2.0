@@ -15,7 +15,7 @@ namespace PCPW2
         {
             List<ParsedProduct> products = new List<ParsedProduct>();
 
-            if (!validateLink(link))
+            if (!ValidateLink(link))
             {
                 MessageBox.Show("Error: Link is not valid or empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
@@ -56,11 +56,9 @@ namespace PCPW2
             return result;
         }
 
-        private bool validateLink(string link)
+        private bool ValidateLink(string link)
         {
-            bool result;
-            Uri uriResult;
-            return result = Uri.TryCreate(link, UriKind.Absolute, out uriResult)
+            return Uri.TryCreate(link, UriKind.Absolute, out Uri uriResult)
                 && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
 
         }

@@ -46,7 +46,7 @@ namespace PCPW2
             this.btnPull.TabIndex = 0;
             this.btnPull.Text = "Pull";
             this.btnPull.UseVisualStyleBackColor = true;
-            this.btnPull.Click += new System.EventHandler(this.btnPull_Click);
+            this.btnPull.Click += new System.EventHandler(this.BtnPull_Click);
             // 
             // btnChooseDataPath
             // 
@@ -56,7 +56,7 @@ namespace PCPW2
             this.btnChooseDataPath.TabIndex = 1;
             this.btnChooseDataPath.Text = "Choose ";
             this.btnChooseDataPath.UseVisualStyleBackColor = true;
-            this.btnChooseDataPath.Click += new System.EventHandler(this.btnChooseDataPath_Click);
+            this.btnChooseDataPath.Click += new System.EventHandler(this.BtnChooseDataPath_Click);
             // 
             // label1
             // 

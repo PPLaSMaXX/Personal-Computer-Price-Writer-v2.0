@@ -28,8 +28,9 @@ namespace PCPW2
             return true;
         }
 
-        static public Config ReadFromFile(Config cfg, string cfgPath)
+        static public Config ReadFromFile(string cfgPath)
         {
+            Config cfg;
             try
             {
                 string str = File.ReadAllText(cfgPath);

@@ -4,11 +4,11 @@
     {
         public ParsedProduct(string name, int price)
         {
-            this.name = name;
-            this.price = price;
+            this.Name = name;
+            this.Price = price;
         }
 
-        public string name { get; }
-        public int price { get; }
+        public string Name { get; }
+        public int Price { get; }
     }
 }

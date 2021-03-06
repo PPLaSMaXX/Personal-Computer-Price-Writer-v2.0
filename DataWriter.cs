@@ -12,7 +12,7 @@ namespace PCPW2
         static public bool WriteToFIle(List<ParsedProduct> products, string saveFilePath)
         {
             //checking is file was Written
-            if (isWritten(saveFilePath))
+            if (IsWritten(saveFilePath))
             {
                 MessageBox.Show("Already Done", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
@@ -24,13 +24,13 @@ namespace PCPW2
             //adding all to one string which wiil be line in csv
             for (int i = 0; i < products.Count; i++)
             {
-                prepearedString += products[i].price.ToString() + ";";
-                sum += products[i].price;
+                prepearedString += products[i].Price.ToString() + ";";
+                sum += products[i].Price;
             }
             prepearedString += sum.ToString() + ";";
 
             //making complete line which 
-            completedLine = csvLineMaker(prepearedString);
+            completedLine = CsvLineMaker(prepearedString);
 
             try
             {
@@ -46,7 +46,7 @@ namespace PCPW2
             }
         }
 
-        static private bool isWritten(string saveFilePath)
+        static private bool IsWritten(string saveFilePath)
         {
             if (!File.Exists(saveFilePath)) return false;
             try
@@ -61,7 +61,7 @@ namespace PCPW2
             }
         }
 
-        static private string csvLineMaker(string input)
+        static private string CsvLineMaker(string input)
         {
             StringBuilder csv = new StringBuilder();
             csv.Append(string.Format(date.Day + "." + date.Month + "." + date.Year + ";" + input));
