@@ -40,9 +40,9 @@ namespace PCPW2
             // 
             // btnPull
             // 
-            this.btnPull.Location = new System.Drawing.Point(12, 61);
+            this.btnPull.Location = new System.Drawing.Point(12, 60);
             this.btnPull.Name = "btnPull";
-            this.btnPull.Size = new System.Drawing.Size(262, 32);
+            this.btnPull.Size = new System.Drawing.Size(262, 23);
             this.btnPull.TabIndex = 0;
             this.btnPull.Text = "Pull";
             this.btnPull.UseVisualStyleBackColor = true;

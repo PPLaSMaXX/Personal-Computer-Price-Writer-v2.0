@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -17,16 +16,6 @@ namespace PCPW2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //checking and adding to boot
-            AddToBoot();
-
-            //chekicng arguments
-            if (IsSilenceLauch())
-            {
-                LaunchOnSilentMOde();
-            }
-
-            //reading cfg
             cfg = ConfigIO.ReadFromFile(cfgPath);
 
             if (cfg == null)
@@ -40,23 +29,7 @@ namespace PCPW2
             tbLink.Text = cfg.link;
         }
 
-        private void BtnPull_Click(object sender, EventArgs e)
-        {
-            Pull();
-        }
-
-        private void BtnChooseDataPath_Click(object sender, EventArgs e)
-        {
-            //adding file saving path
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-            {
-                tbDataPath.Text = folderBrowserDialog1.SelectedPath + "\\PriceData.csv";
-                cfg.saveFilePath = tbDataPath.Text;
-                ConfigIO.SaveToFIle(cfg, cfgPath);
-            }
-        }
-
-        private async void Pull()
+        private async void BtnPull_Click(object sender, EventArgs e)
         {
             // Get config values from UI
             if (cfg.link != tbLink.Text) cfg.link = tbLink.Text;
@@ -70,7 +43,7 @@ namespace PCPW2
 
             // Parse products
             Parser parser = new Parser();
-            List<ParsedProduct> products = await parser.ParseLink(cfg.link);
+            List<ParsedProduct>  products = await parser.ParseLink(cfg.link);
 
             // If parse error
             if (products == null)
@@ -85,41 +58,16 @@ namespace PCPW2
                 ShowErrorMessage("Folder doesn't choosen");
             }
 
-            MessageBox.Show("Success", "OK!", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void LaunchOnSilentMOde()
+        private void BtnChooseDataPath_Click(object sender, EventArgs e)
         {
-            //hiding the form
-            this.Visible = false;
-            this.WindowState = FormWindowState.Minimized;
-            this.ShowInTaskbar = false;
-
-            //parse
-            Pull();
-
-            //close form
-            this.Close();
-        }
-
-        private bool IsSilenceLauch()
-        {
-            //cheking the armunets
-            string[] arguments = Environment.GetCommandLineArgs();
-            if (arguments.Length > 1 && arguments[1] == "--silent") return true;
-            return false;
-
-        }
-
-        private void AddToBoot()
-        {
-            //adding to boot using register
-            RegistryKey reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            if (reg.GetValue("PCPW") != null)
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
-                reg.SetValue("PCPW", Application.ExecutablePath + " --silent");
+                tbDataPath.Text = folderBrowserDialog1.SelectedPath + "\\PriceData.csv";
+                cfg.saveFilePath = tbDataPath.Text;
+                ConfigIO.SaveToFIle(cfg, cfgPath);
             }
-
         }
 
         private void ShowErrorMessage(string error)
@@ -128,4 +76,3 @@ namespace PCPW2
         }
     }
 }
-
