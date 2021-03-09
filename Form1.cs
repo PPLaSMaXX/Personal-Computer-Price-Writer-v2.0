@@ -26,7 +26,6 @@ namespace PCPW2
                 LaunchOnSilentMOde();
             }
 
-
             //reading cfg
             cfg = ConfigIO.ReadFromFile(cfgPath);
 
