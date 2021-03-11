@@ -15,7 +15,7 @@ namespace PCPW2
             return JsonConvert.DeserializeObject<Config>(input);
         }
 
-        static public bool SaveToFIle(Config cfg, string cfgPath)
+        static public bool SaveToFile(Config cfg, string cfgPath)
         {
             try
             {
