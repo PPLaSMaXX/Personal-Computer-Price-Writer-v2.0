@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PCPW2
 {
@@ -12,21 +14,10 @@ namespace PCPW2
 
         public Form1()
         {
-            InitializeComponent();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            //checking and adding to boot
+            // Checking and adding to boot
             AddToBoot();
 
-            //chekicng arguments
-            if (IsSilenceLauch())
-            {
-                LaunchOnSilentMOde();
-            }
-
-            //reading cfg
+            // Reading cfg
             cfg = ConfigIO.ReadFromFile(cfgPath);
 
             if (cfg == null)
@@ -35,37 +26,47 @@ namespace PCPW2
                 cfg = new Config();
             }
 
-            //sync config values with UI
+            InitializeComponent();
+
+            // Sync config values with UI
             tbDataPath.Text = cfg.saveFilePath;
             tbLink.Text = cfg.link;
+
+            // Checking arguments
+            if (IsSilenceLaunch())
+            {
+                LaunchOnSilentMode();
+            }
+            
         }
 
-        private void BtnPull_Click(object sender, EventArgs e)
+        private async void BtnPull_Click(object sender, EventArgs e)
         {
-            Pull();
+            await Pull();
         }
 
         private void BtnChooseDataPath_Click(object sender, EventArgs e)
         {
-            //adding file saving path
+            // Adding file saving path
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 tbDataPath.Text = folderBrowserDialog1.SelectedPath + "\\PriceData.csv";
                 cfg.saveFilePath = tbDataPath.Text;
-                ConfigIO.SaveToFIle(cfg, cfgPath);
+                ConfigIO.SaveToFile(cfg, cfgPath);
             }
         }
 
-        private async void Pull()
+        private async Task<bool> Pull()
         {
             // Get config values from UI
             if (cfg.link != tbLink.Text) cfg.link = tbLink.Text;
             if (cfg.saveFilePath != tbLink.Text) cfg.saveFilePath = tbDataPath.Text;
 
             // Save configuration to file
-            if (!ConfigIO.SaveToFIle(cfg, cfgPath))
+            if (!ConfigIO.SaveToFile(cfg, cfgPath))
             {
                 ShowErrorMessage("Can`t save config");
+                return false;
             }
 
             // Parse products
@@ -76,44 +77,52 @@ namespace PCPW2
             if (products == null)
             {
                 ShowErrorMessage("Data doesn`t parsed!");
-                return;
+                return false;
             }
 
-            //write data to csv file
+            // Write data to csv file
             if (!DataWriter.WriteToFIle(products, cfg.saveFilePath) && cfg.saveFilePath == "")
             {
-                ShowErrorMessage("Folder doesn't choosen");
+                ShowErrorMessage("Folder doesn't chosen");
+                return false;
             }
 
             MessageBox.Show("Success", "OK!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return true;
         }
 
-        private void LaunchOnSilentMOde()
+        private async void LaunchOnSilentMode()
         {
-            //hiding the form
+            // Hiding the form
             this.Visible = false;
             this.WindowState = FormWindowState.Minimized;
             this.ShowInTaskbar = false;
 
-            //parse
-            Pull();
+            // Parse
+            await Pull();
 
-            //close form
+            // Close form
             this.Close();
         }
 
-        private bool IsSilenceLauch()
+        private bool IsSilenceLaunch()
         {
-            //cheking the armunets
+            // Cheking the arguments
             string[] arguments = Environment.GetCommandLineArgs();
-            if (arguments.Length > 1 && arguments[1] == "--silent") return true;
-            return false;
-
+			
+            if (arguments.Contains("--silent")) 
+			{
+				return true;
+			}
+            else 
+			{
+				return false;
+			}
         }
 
         private void AddToBoot()
         {
-            //adding to boot using register
+            // Adding to boot using register
             RegistryKey reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             if (reg.GetValue("PCPW") != null)
             {
