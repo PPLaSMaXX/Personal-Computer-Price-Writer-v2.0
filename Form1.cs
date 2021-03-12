@@ -60,7 +60,7 @@ namespace PCPW2
         {
             // Get config values from UI
             if (cfg.link != tbLink.Text) cfg.link = tbLink.Text;
-            if (cfg.saveFilePath != tbLink.Text) cfg.saveFilePath = tbDataPath.Text;
+            if (cfg.saveFilePath != tbDataPath.Text) cfg.saveFilePath = tbDataPath.Text;
 
             // Save configuration to file
             if (!ConfigIO.SaveToFile(cfg, cfgPath))
