@@ -52,6 +52,9 @@ namespace PCPW2
             try
             {
                 string input = File.ReadAllText(saveFilePath);
+                if (!input.Contains("Date;Cpu cooler;GPU;Case fan;Case;SSD;HDD;CPU;Motherboard;PS;RAM;Price;")) 
+                    File.AppendAllText(saveFilePath, "Date;Cpu cooler;GPU;Case fan;Case;SSD;HDD;CPU;Motherboard;PS;RAM;Price");
+
                 return input.Contains(date.Day + "." + date.Month + "." + date.Year + ";");
             }
             catch
