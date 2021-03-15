@@ -1,9 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace PCPW2
 {
@@ -37,7 +37,7 @@ namespace PCPW2
             {
                 LaunchOnSilentMode();
             }
-            
+
         }
 
         private async void BtnPull_Click(object sender, EventArgs e)
@@ -109,15 +109,15 @@ namespace PCPW2
         {
             // Cheking the arguments
             string[] arguments = Environment.GetCommandLineArgs();
-			
-            if (arguments.Contains("--silent")) 
-			{
-				return true;
-			}
-            else 
-			{
-				return false;
-			}
+
+            if (arguments.Contains("--silent"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private void AddToBoot()

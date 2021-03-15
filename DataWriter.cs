@@ -11,7 +11,7 @@ namespace PCPW2
         static DateTime date = DateTime.Now;
         static public bool WriteToFIle(List<ParsedProduct> products, string saveFilePath)
         {
-            //checking is file was Written
+            // Checking is file was Written
             if (IsWritten(saveFilePath))
             {
                 MessageBox.Show("Already Done", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -21,7 +21,7 @@ namespace PCPW2
             int sum = 0;
             string completedLine, prepearedString = "";
 
-            //adding all to one string which wiil be line in csv
+            // Adding all to one string which wiil be line in csv
             for (int i = 0; i < products.Count; i++)
             {
                 prepearedString += products[i].Price.ToString() + ";";
@@ -29,18 +29,18 @@ namespace PCPW2
             }
             prepearedString += sum.ToString() + ";";
 
-            //making complete line which 
+            // Making complete line which will be writed
             completedLine = CsvLineMaker(prepearedString);
 
             try
             {
-                //Writing
+                // Writing
                 File.AppendAllText(saveFilePath, completedLine);
                 return true;
             }
             catch
             {
-                //data write error
+                // Data write error
                 MessageBox.Show("Error: Can't write data to file, close it if opened", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -48,7 +48,7 @@ namespace PCPW2
 
         static private bool IsWritten(string saveFilePath)
         {
-            if (File.Exists(saveFilePath) && File.ReadAllText(saveFilePath)!="")
+            if (File.Exists(saveFilePath) && File.ReadAllText(saveFilePath) != "")
             {
                 try
                 {
@@ -64,8 +64,9 @@ namespace PCPW2
             }
             else
             {
+                // Creating file with header
                 try
-                { 
+                {
                     File.AppendAllText(saveFilePath, "Date;Cpu cooler;GPU;Case fan;Case;SSD;HDD;CPU;Motherboard;PS;RAM;Price;\n");
                 }
                 catch
