@@ -48,18 +48,30 @@ namespace PCPW2
 
         static private bool IsWritten(string saveFilePath)
         {
-            if (!File.Exists(saveFilePath)) return false;
-            try
+            if (File.Exists(saveFilePath) && File.ReadAllText(saveFilePath)!="")
             {
-                string input = File.ReadAllText(saveFilePath);
-                if (!input.Contains("Date;Cpu cooler;GPU;Case fan;Case;SSD;HDD;CPU;Motherboard;PS;RAM;Price;")) 
-                    File.AppendAllText(saveFilePath, "Date;Cpu cooler;GPU;Case fan;Case;SSD;HDD;CPU;Motherboard;PS;RAM;Price");
+                try
+                {
+                    string input = File.ReadAllText(saveFilePath);
 
-                return input.Contains(date.Day + "." + date.Month + "." + date.Year + ";");
+                    return input.Contains(date.Day + "." + date.Month + "." + date.Year + ";");
+                }
+                catch
+                {
+                    MessageBox.Show("Error: Can't get access to file, close it if opened", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
             }
-            catch
+            else
             {
-                MessageBox.Show("Error: Can't get access to file, close it if opened", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                try
+                { 
+                    File.AppendAllText(saveFilePath, "Date;Cpu cooler;GPU;Case fan;Case;SSD;HDD;CPU;Motherboard;PS;RAM;Price;\n");
+                }
+                catch
+                {
+                    MessageBox.Show("Error: Can't create file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 return false;
             }
         }
