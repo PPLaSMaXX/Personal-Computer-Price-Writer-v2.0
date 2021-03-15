@@ -11,11 +11,31 @@ namespace PCPW2
         static DateTime date = DateTime.Now;
         static public bool WriteToFIle(List<ParsedProduct> products, string saveFilePath)
         {
-            // Checking is file was Written
-            if (IsWritten(saveFilePath))
+            // Cheking if file exist and if them not empty
+            if (File.Exists(saveFilePath) && File.ReadAllText(saveFilePath) != "")
             {
-                MessageBox.Show("Already Done", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return false;
+                // Checking is file was Written
+                if (IsWritten(saveFilePath))
+                {
+                    MessageBox.Show("Already Done", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return false;
+                }
+            }
+            else 
+            {
+                // Creating header
+                string header = "";
+                for (int i = 0; i < products.Count; i++)
+                {
+                    header += products[i].Name.ToString() + ";";
+                }
+
+                // Creating file and writing header into it 0_0 
+                if (!CreateFile(saveFilePath, header))
+                {
+                    MessageBox.Show("Error: Can't create file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
             }
 
             int sum = 0;
@@ -48,31 +68,15 @@ namespace PCPW2
 
         static private bool IsWritten(string saveFilePath)
         {
-            if (File.Exists(saveFilePath) && File.ReadAllText(saveFilePath) != "")
+            try
             {
-                try
-                {
-                    string input = File.ReadAllText(saveFilePath);
+                string input = File.ReadAllText(saveFilePath);
 
-                    return input.Contains(date.Day + "." + date.Month + "." + date.Year + ";");
-                }
-                catch
-                {
-                    MessageBox.Show("Error: Can't get access to file, close it if opened", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
+                return input.Contains(date.Day + "." + date.Month + "." + date.Year + ";");
             }
-            else
+            catch
             {
-                // Creating file with header
-                try
-                {
-                    File.AppendAllText(saveFilePath, "Date;Cpu cooler;GPU;Case fan;Case;SSD;HDD;CPU;Motherboard;PS;RAM;Price;\n");
-                }
-                catch
-                {
-                    MessageBox.Show("Error: Can't create file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                MessageBox.Show("Error: Can't get access to file, close it if opened", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
@@ -83,6 +87,20 @@ namespace PCPW2
             csv.Append(string.Format(date.Day + "." + date.Month + "." + date.Year + ";" + input));
             csv.AppendLine();
             return csv.ToString();
+        }
+
+        static private bool CreateFile(string saveFilePath, string header)
+        {
+            // Creating file with header
+            try
+            {
+                File.AppendAllText(saveFilePath, "Date;" + header + ";\n");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
