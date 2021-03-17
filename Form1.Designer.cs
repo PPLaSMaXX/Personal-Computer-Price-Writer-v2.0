@@ -29,6 +29,7 @@ namespace PCPW2
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.btnPull = new System.Windows.Forms.Button();
             this.btnChooseDataPath = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -101,6 +102,7 @@ namespace PCPW2
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnChooseDataPath);
             this.Controls.Add(this.btnPull);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(300, 145);
             this.MinimumSize = new System.Drawing.Size(300, 145);
             this.Name = "Form1";
