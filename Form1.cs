@@ -124,9 +124,9 @@ namespace PCPW2
         {
             // Adding to boot using register
             RegistryKey reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            if (reg.GetValue("PCPW") == null)
+            if (reg.GetValue("PCPW2") == null)
             {
-                reg.SetValue("PCPW", Application.ExecutablePath);
+                reg.SetValue("PCPW2", Application.ExecutablePath + " --silent");
             }
 
         }
