@@ -9,7 +9,7 @@ namespace PCPW2
 {
     public partial class Form1 : Form
     {
-        private const string cfgPath = "config.json";
+        private string cfgPath = AppDomain.CurrentDomain.BaseDirectory + "config.json";
         Config cfg;
 
         public Form1()
@@ -126,7 +126,7 @@ namespace PCPW2
             RegistryKey reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             if (reg.GetValue("PCPW") == null)
             {
-                reg.SetValue("PCPW", Application.ExecutablePath + " --silent");
+                reg.SetValue("PCPW", Application.ExecutablePath);
             }
 
         }
