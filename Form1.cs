@@ -9,7 +9,7 @@ namespace PCPW2
 {
     public partial class Form1 : Form
     {
-        private string cfgPath = AppDomain.CurrentDomain.BaseDirectory + "config.json";
+        private string cfgPath =    ;
         Config cfg;
 
         public Form1()
