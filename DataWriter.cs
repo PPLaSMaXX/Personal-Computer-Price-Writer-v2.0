@@ -21,7 +21,7 @@ namespace PCPW2
                     return false;
                 }
             }
-            else 
+            else
             {
                 // Creating header
                 string header = "";
