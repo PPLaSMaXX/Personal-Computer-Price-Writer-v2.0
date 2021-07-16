@@ -29,7 +29,7 @@ namespace PCPW2
             InitializeComponent();
 
             // Sync config values with UI
-            tbDataPath.Text = cfg.saveFilePath;
+            tbDataPath.Text = cfg.saveFilePath.Replace("\\PriceData.csv","");
             tbLink.Text = cfg.link;
 
             // Checking arguments
@@ -37,7 +37,6 @@ namespace PCPW2
             {
                 LaunchOnSilentMode();
             }
-
         }
 
         private async void BtnPull_Click(object sender, EventArgs e)
@@ -50,8 +49,8 @@ namespace PCPW2
             // Adding file saving path
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
-                tbDataPath.Text = folderBrowserDialog1.SelectedPath + "\\PriceData.csv";
-                cfg.saveFilePath = tbDataPath.Text;
+                tbDataPath.Text = folderBrowserDialog1.SelectedPath;
+                cfg.saveFilePath = tbDataPath.Text + "\\PriceData.csv";
                 ConfigIO.SaveToFile(cfg, cfgPath);
             }
         }
@@ -60,7 +59,7 @@ namespace PCPW2
         {
             // Get config values from UI
             if (cfg.link != tbLink.Text) cfg.link = tbLink.Text;
-            if (cfg.saveFilePath != tbDataPath.Text) cfg.saveFilePath = tbDataPath.Text;
+            if (cfg.saveFilePath.Replace("\\PriceData.csv", "") != tbDataPath.Text) cfg.saveFilePath = tbDataPath.Text;
 
             // Save configuration to file
             if (!ConfigIO.SaveToFile(cfg, cfgPath))

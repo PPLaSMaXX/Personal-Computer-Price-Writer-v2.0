@@ -41,9 +41,10 @@ namespace PCPW2
             // 
             // btnPull
             // 
-            this.btnPull.Location = new System.Drawing.Point(12, 61);
+            this.btnPull.Location = new System.Drawing.Point(15, 111);
+            this.btnPull.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnPull.Name = "btnPull";
-            this.btnPull.Size = new System.Drawing.Size(262, 32);
+            this.btnPull.Size = new System.Drawing.Size(355, 27);
             this.btnPull.TabIndex = 0;
             this.btnPull.Text = "Pull";
             this.btnPull.UseVisualStyleBackColor = true;
@@ -51,9 +52,10 @@ namespace PCPW2
             // 
             // btnChooseDataPath
             // 
-            this.btnChooseDataPath.Location = new System.Drawing.Point(206, 32);
+            this.btnChooseDataPath.Location = new System.Drawing.Point(298, 81);
+            this.btnChooseDataPath.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.btnChooseDataPath.Name = "btnChooseDataPath";
-            this.btnChooseDataPath.Size = new System.Drawing.Size(68, 23);
+            this.btnChooseDataPath.Size = new System.Drawing.Size(71, 27);
             this.btnChooseDataPath.TabIndex = 1;
             this.btnChooseDataPath.Text = "Choose ";
             this.btnChooseDataPath.UseVisualStyleBackColor = true;
@@ -62,7 +64,8 @@ namespace PCPW2
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 7);
+            this.label1.Location = new System.Drawing.Point(13, 6);
+            this.label1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(34, 17);
             this.label1.TabIndex = 2;
@@ -71,7 +74,8 @@ namespace PCPW2
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 35);
+            this.label2.Location = new System.Drawing.Point(12, 61);
+            this.label2.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(82, 17);
             this.label2.TabIndex = 3;
@@ -79,23 +83,25 @@ namespace PCPW2
             // 
             // tbDataPath
             // 
-            this.tbDataPath.Location = new System.Drawing.Point(100, 32);
+            this.tbDataPath.Location = new System.Drawing.Point(16, 82);
+            this.tbDataPath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 0);
             this.tbDataPath.Name = "tbDataPath";
-            this.tbDataPath.Size = new System.Drawing.Size(100, 22);
+            this.tbDataPath.Size = new System.Drawing.Size(277, 22);
             this.tbDataPath.TabIndex = 4;
             // 
             // tbLink
             // 
-            this.tbLink.Location = new System.Drawing.Point(100, 4);
+            this.tbLink.Location = new System.Drawing.Point(16, 27);
+            this.tbLink.Margin = new System.Windows.Forms.Padding(3, 2, 3, 0);
             this.tbLink.Name = "tbLink";
-            this.tbLink.Size = new System.Drawing.Size(174, 22);
+            this.tbLink.Size = new System.Drawing.Size(352, 22);
             this.tbLink.TabIndex = 5;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(282, 98);
+            this.ClientSize = new System.Drawing.Size(381, 142);
             this.Controls.Add(this.tbLink);
             this.Controls.Add(this.tbDataPath);
             this.Controls.Add(this.label2);
@@ -103,8 +109,9 @@ namespace PCPW2
             this.Controls.Add(this.btnChooseDataPath);
             this.Controls.Add(this.btnPull);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(300, 145);
-            this.MinimumSize = new System.Drawing.Size(300, 145);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.MaximumSize = new System.Drawing.Size(399, 189);
+            this.MinimumSize = new System.Drawing.Size(399, 189);
             this.Name = "Form1";
             this.Text = "PCPW v2";
             this.ResumeLayout(false);
