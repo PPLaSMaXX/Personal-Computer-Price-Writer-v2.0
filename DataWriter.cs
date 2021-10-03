@@ -11,31 +11,39 @@ namespace PCPW2
         static DateTime date = DateTime.Now;
         static public bool WriteToFIle(List<ParsedProduct> products, string saveFilePath)
         {
-            // Cheking if file exist and if them not empty
-            if (File.Exists(saveFilePath) && File.ReadAllText(saveFilePath) != "")
+            try
             {
-                // Checking is file was Written
-                if (IsWritten(saveFilePath))
+                // Cheking if file exist and if them not empty
+                if (File.Exists(saveFilePath) && File.ReadAllText(saveFilePath) != "")
                 {
-                    MessageBox.Show("Already Done", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return false;
+                    // Checking is file was Written
+                    if (IsWritten(saveFilePath))
+                    {
+                        MessageBox.Show("Already Done", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return false;
+                    }
+                }
+                else
+                {
+                    // Creating header
+                    string header = "";
+                    for (int i = 0; i < products.Count; i++)
+                    {
+                        header += products[i].Name.ToString() + ";";
+                    }
+
+                    // Creating file and writing header into it 0_0 
+                    if (!CreateFile(saveFilePath, header))
+                    {
+                        MessageBox.Show("Error: Can't create file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
                 }
             }
-            else
+            catch
             {
-                // Creating header
-                string header = "";
-                for (int i = 0; i < products.Count; i++)
-                {
-                    header += products[i].Name.ToString() + ";";
-                }
-
-                // Creating file and writing header into it 0_0 
-                if (!CreateFile(saveFilePath, header))
-                {
-                    MessageBox.Show("Error: Can't create file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
+                MessageBox.Show("Error: Can't get access to file, close it if opened", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
 
             int sum = 0;

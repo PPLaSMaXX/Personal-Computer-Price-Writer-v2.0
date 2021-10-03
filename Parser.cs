@@ -33,7 +33,7 @@ namespace PCPW2
             IHtmlCollection<IElement> parsedPrices = document.QuerySelectorAll("td.model-hot-prices-td [id^=price], [class$=ib] span:first-child, [class$=model-hot-prices-not-avail]");
             IHtmlCollection<IElement> parsedNames = document.QuerySelectorAll("td.model-short-info table span.u");
 
-            foreach(IElement IElement in parsedPrices)
+            foreach (IElement IElement in parsedPrices)
             {
                 // Removing all non-digits;
                 IElement.TextContent = RemoveSpace(IElement.Text());

@@ -29,7 +29,7 @@ namespace PCPW2
             InitializeComponent();
 
             // Sync config values with UI
-            tbDataPath.Text = cfg.saveFilePath.Replace("\\PriceData.csv","");
+            tbDataPath.Text = cfg.saveFilePath.Replace("\\PriceData.csv", "");
             tbLink.Text = cfg.link;
 
             // Checking arguments
@@ -127,12 +127,11 @@ namespace PCPW2
             {
                 reg.SetValue("PCPW2", Application.ExecutablePath + " --silent");
             }
-
         }
 
-        private void ShowErrorMessage(string error)
+        private void ShowErrorMessage(string errorText)
         {
-            MessageBox.Show($"Error: {error}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show($"Error: {errorText}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
