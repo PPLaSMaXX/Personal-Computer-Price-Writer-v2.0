@@ -57,6 +57,9 @@ namespace PCPW2
 
         private async Task<bool> Pull()
         {
+            btnPull.Enabled = false;
+            btnChooseDataPath.Enabled = false;
+
             // Get config values from UI
             if (cfg.link != tbLink.Text) cfg.link = tbLink.Text;
             if (cfg.saveFilePath.Replace("\\PriceData.csv", "") != tbDataPath.Text) cfg.saveFilePath = tbDataPath.Text;
@@ -87,6 +90,10 @@ namespace PCPW2
             }
 
             MessageBox.Show("Success", "OK!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            btnChooseDataPath.Enabled = true;
+            btnPull.Enabled = true;
+
             return true;
         }
 
