@@ -40,9 +40,9 @@ namespace PCPW2
 
                 string temp = null;
 
-                if (documentTemp.QuerySelector("[id^=price]") != null)
+                if (documentTemp.QuerySelector("[class$=ib] span:first-child") != null)
                 {
-                    temp = IElement.QuerySelector("[id^=price]").TextContent.ToString();
+                    temp = IElement.QuerySelector("[class$=ib] span:first-child").TextContent.ToString();
                     temp = RemoveSpace(temp);
                 }
                 else if (documentTemp.QuerySelector("[id^=price]") != null)
