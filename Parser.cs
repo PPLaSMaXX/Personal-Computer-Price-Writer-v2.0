@@ -30,26 +30,43 @@ namespace PCPW2
             IDocument document = await BrowsingContext.New(config).OpenAsync(link);
 
             // Selecting data with selectors
-            IHtmlCollection<IElement> parsedPrices = document.QuerySelectorAll("td.model-hot-prices-td [id^=price], [class$=ib] span:first-child, [class$=model-hot-prices-not-avail]");
+            IHtmlCollection<IElement> parsedPricesRAW = document.QuerySelectorAll("td.model-hot-prices-td");
+
             IHtmlCollection<IElement> parsedNames = document.QuerySelectorAll("td.model-short-info table span.u");
 
-            foreach (IElement IElement in parsedPrices)
+            List<int> parsedPrices = new List<int>();
+
+            foreach (IElement IElement in parsedPricesRAW)
             {
-                // Removing all non-digits;
-                IElement.TextContent = RemoveSpace(IElement.Text());
+                IDocument documentTemp = await BrowsingContext.New(config).OpenAsync(req => req.Content(IElement.OuterHtml.ToString()));
+
+                string temp = null;
+
+                if (documentTemp.QuerySelector("[class$=ib] span:first-child") != null)
+                {
+                    // Removing all non-digits;
+                    temp = IElement.QuerySelector("[class$=ib] span:first-child").TextContent.ToString();
+                    temp = RemoveSpace(temp);
+
+                }
+                else if (documentTemp.QuerySelector("[id^=price]") != null)
+                {
+                    temp = IElement.QuerySelector("[id^=price]").TextContent.ToString();
+                    temp = RemoveSpace(temp);
+                }
+                else if (documentTemp.QuerySelector("[class$=model-hot-prices-not-avail]") != null)
+                {
+                    temp = "0";
+                }
+                parsedPrices.Add(int.Parse(temp));
             }
 
             // Adding data to list of produtcs
-            for (int i = 0; i < parsedNames.Length && i < parsedPrices.Length; i++)
+            for (int i = 0; i < parsedNames.Length && i < parsedPrices.Count; i++)
             {
-                if (parsedPrices[i].ClassName == "model-hot-prices-not-avail")
-                {
-                    products.Add(new ParsedProduct(parsedNames[i].Text(), 0));
-                }
-                else
-                {
-                    products.Add(new ParsedProduct(parsedNames[i].Text(), int.Parse(parsedPrices[i].Text())));
-                }
+
+                products.Add(new ParsedProduct(parsedNames[i].Text(), parsedPrices[i]));
+
             }
 
             return products;
