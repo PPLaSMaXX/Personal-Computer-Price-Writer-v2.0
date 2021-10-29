@@ -29,7 +29,7 @@ namespace PCPW2
                     string header = "";
                     for (int i = 0; i < products.Count; i++)
                     {
-                        header += products[i].Name.ToString() + ";";
+                        header += products[i].Name.ToString() + ",";
                     }
 
                     // Creating file and writing header into it 0_0 
@@ -52,10 +52,10 @@ namespace PCPW2
             // Adding all to one string which wiil be line in csv
             for (int i = 0; i < products.Count; i++)
             {
-                prepearedString += products[i].Price.ToString() + ";";
+                prepearedString += products[i].Price.ToString() + ",";
                 sum += products[i].Price;
             }
-            prepearedString += sum.ToString() + ";";
+            prepearedString += sum.ToString() + ",";
 
             // Making complete line which will be writed
             completedLine = CsvLineMaker(prepearedString);
@@ -80,7 +80,7 @@ namespace PCPW2
             {
                 string input = File.ReadAllText(saveFilePath);
 
-                return input.Contains(date.Day + "." + date.Month + "." + date.Year + ";");
+                return input.Contains(date.Day + "." + date.Month + "." + date.Year + ",");
             }
             catch
             {
@@ -92,7 +92,7 @@ namespace PCPW2
         static private string CsvLineMaker(string input)
         {
             StringBuilder csv = new StringBuilder();
-            csv.Append(string.Format(date.Day + "." + date.Month + "." + date.Year + ";" + input));
+            csv.Append(string.Format(date.Day + "." + date.Month + "." + date.Year + "," + input));
             csv.AppendLine();
             return csv.ToString();
         }
@@ -102,7 +102,7 @@ namespace PCPW2
             // Creating file with header
             try
             {
-                File.AppendAllText(saveFilePath, "Date;" + header + ";\n");
+                File.AppendAllText(saveFilePath, "Date," + header + ",\n");
                 return true;
             }
             catch
