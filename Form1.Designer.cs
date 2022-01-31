@@ -37,14 +37,15 @@ namespace PCPW2
             this.tbDataPath = new System.Windows.Forms.TextBox();
             this.tbLink = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.bootCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnPull
             // 
-            this.btnPull.Location = new System.Drawing.Point(15, 111);
-            this.btnPull.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnPull.Location = new System.Drawing.Point(11, 90);
+            this.btnPull.Margin = new System.Windows.Forms.Padding(2);
             this.btnPull.Name = "btnPull";
-            this.btnPull.Size = new System.Drawing.Size(355, 27);
+            this.btnPull.Size = new System.Drawing.Size(210, 22);
             this.btnPull.TabIndex = 0;
             this.btnPull.Text = "Pull";
             this.btnPull.UseVisualStyleBackColor = true;
@@ -52,10 +53,10 @@ namespace PCPW2
             // 
             // btnChooseDataPath
             // 
-            this.btnChooseDataPath.Location = new System.Drawing.Point(298, 81);
+            this.btnChooseDataPath.Location = new System.Drawing.Point(224, 66);
             this.btnChooseDataPath.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.btnChooseDataPath.Name = "btnChooseDataPath";
-            this.btnChooseDataPath.Size = new System.Drawing.Size(71, 27);
+            this.btnChooseDataPath.Size = new System.Drawing.Size(53, 22);
             this.btnChooseDataPath.TabIndex = 1;
             this.btnChooseDataPath.Text = "Choose ";
             this.btnChooseDataPath.UseVisualStyleBackColor = true;
@@ -64,44 +65,56 @@ namespace PCPW2
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 6);
+            this.label1.Location = new System.Drawing.Point(10, 5);
             this.label1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 17);
+            this.label1.Size = new System.Drawing.Size(27, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "Link";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 61);
+            this.label2.Location = new System.Drawing.Point(9, 50);
             this.label2.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(82, 17);
+            this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 3;
             this.label2.Text = "Data Folder";
             // 
             // tbDataPath
             // 
-            this.tbDataPath.Location = new System.Drawing.Point(16, 82);
-            this.tbDataPath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 0);
+            this.tbDataPath.Location = new System.Drawing.Point(12, 67);
+            this.tbDataPath.Margin = new System.Windows.Forms.Padding(2, 2, 2, 0);
             this.tbDataPath.Name = "tbDataPath";
-            this.tbDataPath.Size = new System.Drawing.Size(277, 22);
+            this.tbDataPath.Size = new System.Drawing.Size(209, 20);
             this.tbDataPath.TabIndex = 4;
             // 
             // tbLink
             // 
-            this.tbLink.Location = new System.Drawing.Point(16, 27);
-            this.tbLink.Margin = new System.Windows.Forms.Padding(3, 2, 3, 0);
+            this.tbLink.Location = new System.Drawing.Point(12, 22);
+            this.tbLink.Margin = new System.Windows.Forms.Padding(2, 2, 2, 0);
             this.tbLink.Name = "tbLink";
-            this.tbLink.Size = new System.Drawing.Size(352, 22);
+            this.tbLink.Size = new System.Drawing.Size(265, 20);
             this.tbLink.TabIndex = 5;
+            // 
+            // bootCheckBox
+            // 
+            this.bootCheckBox.AutoSize = true;
+            this.bootCheckBox.Location = new System.Drawing.Point(224, 91);
+            this.bootCheckBox.Name = "bootCheckBox";
+            this.bootCheckBox.Size = new System.Drawing.Size(69, 17);
+            this.bootCheckBox.TabIndex = 6;
+            this.bootCheckBox.Text = "Autoboot";
+            this.bootCheckBox.UseVisualStyleBackColor = true;
+            this.bootCheckBox.CheckedChanged += new System.EventHandler(this.bootCheckBox_CheckedChanged);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(381, 142);
+            this.ClientSize = new System.Drawing.Size(289, 122);
+            this.Controls.Add(this.bootCheckBox);
             this.Controls.Add(this.tbLink);
             this.Controls.Add(this.tbDataPath);
             this.Controls.Add(this.label2);
@@ -109,9 +122,9 @@ namespace PCPW2
             this.Controls.Add(this.btnChooseDataPath);
             this.Controls.Add(this.btnPull);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.MaximumSize = new System.Drawing.Size(399, 189);
-            this.MinimumSize = new System.Drawing.Size(399, 189);
+            this.Margin = new System.Windows.Forms.Padding(2);
+            this.MaximumSize = new System.Drawing.Size(305, 161);
+            this.MinimumSize = new System.Drawing.Size(305, 161);
             this.Name = "Form1";
             this.Text = "PCPW v2";
             this.ResumeLayout(false);
@@ -128,6 +141,7 @@ namespace PCPW2
         private System.Windows.Forms.TextBox tbDataPath;
         private System.Windows.Forms.TextBox tbLink;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.CheckBox bootCheckBox;
     }
 }
 

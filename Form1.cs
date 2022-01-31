@@ -14,23 +14,22 @@ namespace PCPW2
 
         public Form1()
         {
-            // Checking and adding to boot
-            AddToBoot();
-
             // Reading cfg
             cfg = ConfigIO.ReadFromFile(cfgPath);
+
+            InitializeComponent();
 
             if (cfg == null)
             {
                 ShowErrorMessage("config file can not be read");
                 cfg = new Config();
             }
-
-            InitializeComponent();
-
-            // Sync config values with UI
-            tbDataPath.Text = cfg.saveFilePath.Replace("\\PriceData.csv", "");
-            tbLink.Text = cfg.link;
+            else
+            {
+                // Sync config values with UI
+                tbDataPath.Text = cfg.saveFilePath.Replace("\\PriceData.csv", "");
+                tbLink.Text = cfg.link;
+            }
 
             // Checking arguments
             if (IsSilenceLaunch())
@@ -126,19 +125,36 @@ namespace PCPW2
             }
         }
 
-        private void AddToBoot()
+        private void BootControl(bool isAutoBoot)
         {
-            // Adding to boot using register
             RegistryKey reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            if (reg.GetValue("PCPW2") == null)
+            if (isAutoBoot == true)
             {
-                reg.SetValue("PCPW2", Application.ExecutablePath + " --silent");
+                // Adding to boot using register
+                if (reg.GetValue("PCPW2") == null)
+                {
+                    reg.SetValue("PCPW2", Application.ExecutablePath + " --silent");
+                    ShowErrorMessage("EN");
+                }
+            }
+            else
+            {
+                if (reg.GetValue("PCPW2") != null)
+                {
+                    reg.DeleteValue("PCPW2");
+                    ShowErrorMessage("DIS");
+                }
             }
         }
 
         private void ShowErrorMessage(string errorText)
         {
             MessageBox.Show($"Error: {errorText}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void bootCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            BootControl(bootCheckBox.Checked);
         }
     }
 }
