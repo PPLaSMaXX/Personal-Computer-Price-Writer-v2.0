@@ -102,7 +102,7 @@ namespace PCPW2
             // Creating file with header
             try
             {
-                File.AppendAllText(saveFilePath, "Date," + header + ",\n");
+                File.AppendAllText(saveFilePath, "Date," + header + "Summ,\n");
                 return true;
             }
             catch
