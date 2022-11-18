@@ -1,2 +1,2 @@
 # Personal-Computer-Price-Writer-v2.0
-Just a simple Parser wich download prices from ekatalog and save to cvs file
+Just a simple Parser which getting prices from ekatalog and save them to cvs file
