@@ -9,26 +9,27 @@ namespace PCPW2
 {
     public partial class Form1 : Form
     {
-        private string cfgPath = AppDomain.CurrentDomain.BaseDirectory + "config.json";
-        Config cfg;
-
+        private string jsonPath = AppDomain.CurrentDomain.BaseDirectory + "config.json";
+        List<Preset> presets = new List<Preset>();
+        int SelectedPresetIndex = 0;
         public Form1()
         {
             // Reading cfg
-            cfg = ConfigIO.ReadFromFile(cfgPath);
+            presets = JsonIO.ReadFromFile(jsonPath);
 
             InitializeComponent();
 
-            if (cfg == null)
+            if (presets == null || presets.Count == 0)
             {
                 ShowErrorMessage("config file can not be read");
-                cfg = new Config();
             }
             else
             {
-                // Sync config values with UI
-                tbDataPath.Text = cfg.saveFilePath.Replace("\\PriceData.csv", "");
-                tbLink.Text = cfg.link;
+                // Sync json values with UI
+                tbDataPath.Text = presets[SelectedPresetIndex].saveFilePath.Replace("\\PriceData.csv", "");
+                tbLink.Text = presets[SelectedPresetIndex].link;
+                cboPresetSelector.Items.AddRange(presets.Select(x => x.Name).ToArray());
+                cboPresetSelector.SelectedIndex = 0;
             }
 
             // Checking arguments
@@ -42,11 +43,19 @@ namespace PCPW2
         {
             btnPull.Enabled = false;
             btnChooseDataPath.Enabled = false;
+            btnDeletePreset.Enabled = false;
+            btnPullAll.Enabled = false;
+            btnSavePreset.Enabled = false;
+            cboPresetSelector.Enabled = false;
 
             await Pull();
 
-            btnChooseDataPath.Enabled = true;
             btnPull.Enabled = true;
+            btnChooseDataPath.Enabled = true;
+            btnDeletePreset.Enabled = true;
+            btnPullAll.Enabled = true;
+            btnSavePreset.Enabled = true;
+            cboPresetSelector.Enabled = true;
         }
 
         private void BtnChooseDataPath_Click(object sender, EventArgs e)
@@ -55,19 +64,14 @@ namespace PCPW2
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 tbDataPath.Text = folderBrowserDialog1.SelectedPath;
-                cfg.saveFilePath = tbDataPath.Text + "\\PriceData.csv";
-                ConfigIO.SaveToFile(cfg, cfgPath);
+                JsonIO.SaveToFile(presets, jsonPath);
             }
         }
 
         private async Task<bool> Pull()
-        {         
-            // Get config values from UI
-            if (cfg.link != tbLink.Text) cfg.link = tbLink.Text;
-            if (cfg.saveFilePath.Replace("\\PriceData.csv", "") != tbDataPath.Text) cfg.saveFilePath = tbDataPath.Text;
-
+        {               
             // Save configuration to file
-            if (!ConfigIO.SaveToFile(cfg, cfgPath))
+            if (!JsonIO.SaveToFile(presets, jsonPath))
             {
                 ShowErrorMessage("Can`t save config");
                 return false;
@@ -75,7 +79,7 @@ namespace PCPW2
 
             // Parse products
             Parser parser = new Parser();
-            List<ParsedProduct> products = await parser.ParseLink(cfg.link);
+            List<ParsedProduct> products = await parser.ParseLink(tbLink.Text);
 
             // If parse error
             if (products == null)
@@ -85,7 +89,7 @@ namespace PCPW2
             }
 
             // Write data to csv file
-            if (!DataWriter.WriteToFIle(products, cfg.saveFilePath) && cfg.saveFilePath == "")
+            if (!DataWriter.WriteToFIle(products, tbDataPath.Text) && tbDataPath.Text == "")
             {
                 ShowErrorMessage("Folder doesn't chosen");
                 return false;
@@ -153,6 +157,64 @@ namespace PCPW2
         private void bootCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             BootControl(bootCheckBox.Checked);
+        }
+
+        private void cboPresetSelector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SelectedPresetIndex = cboPresetSelector.SelectedIndex;
+            tbDataPath.Text = presets[SelectedPresetIndex].saveFilePath.Replace("\\PriceData.csv", "");
+            tbLink.Text = presets[SelectedPresetIndex].link;
+        }
+
+        private void btnSavePreset_Click(object sender, EventArgs e)
+        {
+            string name = ShowDialog("Enter the name of your preset", "hella fun");
+            presets.Add(new Preset(name, tbLink.Text, tbDataPath.Text));
+            JsonIO.SaveToFile(presets, jsonPath);
+            cboPresetSelector.Items.Clear();
+            cboPresetSelector.Items.AddRange(presets.Select(x => x.Name).ToArray());
+            cboPresetSelector.SelectedIndex = cboPresetSelector.Items.Count - 1;
+        }
+
+        private void btnDeletePreset_Click(object sender, EventArgs e)
+        {
+            presets.RemoveAt(SelectedPresetIndex);
+            JsonIO.SaveToFile(presets,jsonPath);
+            cboPresetSelector.Text = "";
+            cboPresetSelector.Items.Clear();
+            cboPresetSelector.Items.AddRange(presets.Select(x => x.Name).ToArray());
+            if(SelectedPresetIndex - 1 >= 0)
+            {
+                SelectedPresetIndex -= 1;
+                cboPresetSelector.SelectedIndex = SelectedPresetIndex;
+            }
+        }
+
+        private void btnPullAll_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        public static string ShowDialog(string text, string caption)
+        {
+            Form prompt = new Form()
+            {
+                Width = 500,
+                Height = 150,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                Text = caption,
+                StartPosition = FormStartPosition.CenterScreen
+            };
+            Label textLabel = new Label() { Left = 50, Top = 20, Text = text, AutoSize = true };
+            TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400 };
+            Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70, DialogResult = DialogResult.OK };
+            confirmation.Click += (sender, e) => { prompt.Close(); };
+            prompt.Controls.Add(textBox);
+            prompt.Controls.Add(confirmation);
+            prompt.Controls.Add(textLabel);
+            prompt.AcceptButton = confirmation;
+
+            return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : "";
         }
     }
 }
