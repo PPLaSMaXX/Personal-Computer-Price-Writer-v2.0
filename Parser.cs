@@ -1,9 +1,11 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom;
+using AngleSharp.Html.Dom;
 using AngleSharp.Text;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -29,40 +31,24 @@ namespace PCPW2
             // Loading page HTML code
             IDocument document = await BrowsingContext.New(config).OpenAsync(link);
 
-            // Selecting data with selectors
-            IHtmlCollection<IElement> parsedPricesRAW = document.QuerySelectorAll("td.model-hot-prices-td");
-            IHtmlCollection<IElement> parsedNames = document.QuerySelectorAll("td.model-short-info table span.u");
-            List<int> parsedPrices = new List<int>();
+            // Selecting all products in list
+            IHtmlCollection<IElement> parsedProducts = document.QuerySelectorAll(".list-item--goods a[id^=product]");
 
-            foreach (IElement IElement in parsedPricesRAW)
+
+            foreach (IHtmlAnchorElement productLink in parsedProducts)
             {
-                IDocument documentTemp = await BrowsingContext.New(config).OpenAsync(req => req.Content(IElement.OuterHtml.ToString()));
+                // Loading product page HTML code
+                IDocument productDocument = await BrowsingContext.New(config).OpenAsync(productLink.Href);
 
-                string temp = null;
+                // Selecting data with selectors
+                IHtmlCollection<IElement> ICategory = productDocument.QuerySelectorAll(".t2");
+                IHtmlCollection<IElement> IPrice = productDocument.QuerySelectorAll(".desc-big-price span:first-child");
+                IHtmlCollection<IElement> IName = productDocument.QuerySelectorAll(".t2 b");
 
-                if (documentTemp.QuerySelector("[class$=ib] span:first-child") != null)
-                {
-                    temp = IElement.QuerySelector("[class$=ib] span:first-child").TextContent.ToString();
-                    temp = RemoveSpace(temp);
-                }
-                else if (documentTemp.QuerySelector("[id^=price]") != null)
-                {
-                    temp = IElement.QuerySelector("[id^=price]").TextContent.ToString();
-                    temp = RemoveSpace(temp);
-                }
-                else if (documentTemp.QuerySelector("[class$=model-hot-prices-not-avail]") != null)
-                {
-                    temp = "0";
-                }
-                parsedPrices.Add(int.Parse(temp));
-            }
+                // Getting category from HTML
+                string category = Regex.Match(ICategory[0].InnerHtml, @"^([\w\-]+)").Value;
 
-            // Adding data to list of produtcs
-            for (int i = 0; i < parsedNames.Length && i < parsedPrices.Count; i++)
-            {
-
-                products.Add(new ParsedProduct(parsedNames[i].Text(), parsedPrices[i]));
-
+                products.Add( new ParsedProduct(category, RemoveSpace(IPrice[0].TextContent), IName[0].TextContent));
             }
 
             return products;
@@ -71,11 +57,11 @@ namespace PCPW2
         private string RemoveSpace(string input)
         {
             string result = null;
-            for (int z = 0; z < input.Length; z++)
+            for (int i = 0; i < input.Length; i++)
             {
-                if (input[z].IsDigit())
+                if (input[i].IsDigit())
                 {
-                    result += input[z];
+                    result += input[i];
                 }
             }
             return result;
@@ -102,5 +88,6 @@ namespace PCPW2
                 return false;
             }
         }
+
     }
 }

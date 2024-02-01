@@ -153,7 +153,7 @@ namespace PCPW2
             this.btnPullAll.TabIndex = 10;
             this.btnPullAll.Text = "Pull All";
             this.btnPullAll.UseVisualStyleBackColor = true;
-            this.btnPullAll.Click += new System.EventHandler(this.btnPullAll_Click);
+            this.btnPull.Click += new System.EventHandler(this.btnPullAll_Click);
             // 
             // Form1
             // 

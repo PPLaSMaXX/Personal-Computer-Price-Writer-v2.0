@@ -190,9 +190,58 @@ namespace PCPW2
             }
         }
 
-        private void btnPullAll_Click(object sender, EventArgs e)
+        private async void btnPullAll_Click(object sender, EventArgs e)
         {
+            btnPull.Enabled = false;
+            btnChooseDataPath.Enabled = false;
+            btnDeletePreset.Enabled = false;
+            btnPullAll.Enabled = false;
+            btnSavePreset.Enabled = false;
+            cboPresetSelector.Enabled = false;
 
+            await PullAll();
+
+            btnPull.Enabled = true;
+            btnChooseDataPath.Enabled = true;
+            btnDeletePreset.Enabled = true;
+            btnPullAll.Enabled = true;
+            btnSavePreset.Enabled = true;
+            cboPresetSelector.Enabled = true;
+        }
+
+        private async Task<bool> PullAll()
+        {
+            foreach (Preset preset in presets)
+            {
+                // Save configuration to file
+                if (!JsonIO.SaveToFile(presets, jsonPath))
+                {
+                    ShowErrorMessage("Can`t save config");
+                    return false;
+                }
+
+                // Parse products
+                Parser parser = new Parser();
+                List<ParsedProduct> products = await parser.ParseLink(preset.link);
+
+                // If parse error
+                if (products == null)
+                {
+                    ShowErrorMessage("Data doesn`t parsed!");
+                    return false;
+                }
+
+                // Write data to csv file
+                if (!DataWriter.WriteToFIle(products, preset.saveFilePath) && preset.saveFilePath == "")
+                {
+                    ShowErrorMessage("Folder doesn't chosen");
+                    return false;
+                }
+            }
+
+            MessageBox.Show("Success", "OK!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            return true;
         }
 
         public static string ShowDialog(string text, string caption)
