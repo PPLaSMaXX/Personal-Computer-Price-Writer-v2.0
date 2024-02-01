@@ -46,7 +46,7 @@ namespace PCPW2
                 IHtmlCollection<IElement> IName = productDocument.QuerySelectorAll(".t2 b");
 
                 // Getting category from HTML
-                string category = Regex.Match(ICategory[0].InnerHtml, @"^([\w\-]+)").Value;
+                string category = Regex.Match(ICategory[0].InnerHtml, @".+?(?=<b)").Value;
 
                 products.Add( new ParsedProduct(category, RemoveSpace(IPrice[0].TextContent), IName[0].TextContent));
             }
